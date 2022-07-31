@@ -8,6 +8,9 @@
 #include"VAO.h"
 #include<iostream>
 
+#include <stdlib.h>
+#include <time.h>
+
 typedef enum {
 	Off,
 	Starting,
@@ -20,6 +23,9 @@ class Fire
 
 
 private:
+	Shader* shaderProgram;
+	VAO VAO1;
+
 	//Fire parameters
 	int fireSize; //nie wiem jak ma dokladnie dzialac jeszcze
 
@@ -30,8 +36,13 @@ private:
 	GLfloat pointVertex[800];
 	int pointVertexArraySize;
 
+
+
+	void fillArray(int);
+
 public:
-	Fire(int w, int h);
+	Fire(int w, int h, int fireSize);
+	~Fire();
 
 	void activate(); //activate fire
 	void deactivate(); //deactivate fire

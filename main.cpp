@@ -28,7 +28,7 @@ int main()
 	glViewport(0, 0, 800, 800); //mówienie gladowi o obszarze roboczym
 
 	
-	Fire testFire(800, 800);
+	Fire testFire(800, 800, 50);
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f); //przygotowanie komendy 
@@ -37,6 +37,7 @@ int main()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		testFire.update();
+		testFire.render();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //włączenie przetwarzania stanów okna

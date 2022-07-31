@@ -1,27 +1,39 @@
-#include "Fire.h"
+﻿#include "Fire.h"
 
-Fire::Fire(int w, int h)
+Fire::Fire(int w, int h, int fireSize)
 {
 	windowHeight = h;
 	windowWidth = w;
-	fireSize = 10; //temp?
 	pointVertexArraySize = 0;
 
-	//TEMP - potem pewnie do funkcji jakiejs
-	int size = 100;
+	shaderProgram = new Shader("spark.vert", "spark.frag");
+	shaderProgram->Activate();
+	VAO1.Bind();
 
+	srand(time(NULL));
+
+	fillArray(fireSize);
+}
+
+Fire::~Fire()
+{
+
+	VAO1.Delete();
+	shaderProgram->Delete();
+}
+
+void Fire::fillArray(int size)
+{
 	int j = 0;
-
 	pointVertexArraySize = size;
-
 	for (int i = 0; i < size; i++)
 	{
 		float posX = float(i) / 100;
-		pointVertex[i*6+j] = posX;
+		pointVertex[i * 6 + j] = posX;
 		j++;
-		pointVertex[i*6+j] = -0.5;
+		pointVertex[i * 6 + j] = -0.5;
 		j++;
-		pointVertex[i*6+j] = 0;
+		pointVertex[i * 6 + j] = 0;
 		j++;
 		pointVertex[i * 6 + j] = -1 * posX;
 		j++;
@@ -30,7 +42,6 @@ Fire::Fire(int w, int h)
 		pointVertex[i * 6 + j] = 0;
 		j = 0;
 	}
-	//
 }
 
 void Fire::activate()
@@ -45,37 +56,42 @@ void Fire::changeSize(int changeBy)
 }
 
 
+
 void Fire::update()
 {
-	////////TEMP STUFF//////////
-
-
-
-	
-
-	Shader shaderProgram("spark.vert", "spark.frag");
-
-	VAO VAO1;
-	VAO1.Bind();
+	//jeśli wyszło poza ekran to wyzeruj
+	if (pointVertex[1] > 0.7) { 
+		for (int i = 0; i < pointVertexArraySize; i++)
+		{
+			pointVertex[i * 3 + 1] = -0.5;
+		}
+	}
+	//jeśli nie to leć w górę
+	else { 
+		for (int i = 0; i < pointVertexArraySize; i++)
+		{
+			float rand = float(std::rand() % 750) / 410000;
+			pointVertex[i * 3 + 1] += rand;
+		}
+	}
+}
+void Fire::render()
+{
 	// Generates Vertex Buffer Object and links it to vertices
-	VBO VBO1(pointVertex, sizeof(pointVertex));
+	
+	VBO VBO1 = VBO(pointVertex, sizeof(pointVertex));
 	VAO1.LinkVBO(VBO1, 0);
 
-	shaderProgram.Activate();
+	int vertexColorLocation = glGetUniformLocation(shaderProgram->ID, "ourColor");
 
-
-	VBO1 = VBO(pointVertex, sizeof(pointVertex));
-	VAO1.LinkVBO(VBO1, 0); // Links VBO to VAO
-	VAO1.Bind();
-
-	int vertexColorLocation = glGetUniformLocation(shaderProgram.ID, "ourColor");
 	glPointSize(10);
 	glUniform4f(vertexColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
 	glDrawArrays(GL_POINTS, 0, pointVertexArraySize);
 
-	VAO1.Delete();
+	
 	VBO1.Delete();
-	shaderProgram.Delete();
+	
 	//////////////////////////
+	
 
 }
