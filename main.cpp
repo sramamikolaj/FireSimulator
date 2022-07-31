@@ -18,13 +18,6 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
 
-	GLfloat vertices[] =
-	{
-		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
-		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower right corner
-		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f // Upper corner
-	};
-
 	GLfloat pointVertex[] = {
 		-0.2, -0.5, 0,
 		0.2, -0.5, 0,
@@ -47,25 +40,16 @@ int main()
 	glViewport(0, 0, 800, 800); //mówienie gladowi o obszarze roboczym
 
 	
-
-	// Generates Shader object using shaders defualt.vert and default.frag
+	// Generates Shader object using shaders 
 	Shader shaderProgram("spark.vert", "spark.frag");
 
 
-
-	// Generates Vertex Array Object and binds it
 	VAO VAO1;
 	VAO1.Bind();
-
 	// Generates Vertex Buffer Object and links it to vertices
 	VBO VBO1(pointVertex, sizeof(pointVertex));
-
-	// Links VBO to VAO
 	VAO1.LinkVBO(VBO1, 0);
-	// Unbind all to prevent accidentally modifying them
 	
-
-
 	GLfloat temp = 1;
 
 	while (!glfwWindowShouldClose(window)) {
@@ -89,7 +73,7 @@ int main()
 		pointVertex[7] += 0.0002;
 
 		VBO1 = VBO(pointVertex, sizeof(pointVertex));
-		VAO1.LinkVBO(VBO1, 0);
+		VAO1.LinkVBO(VBO1, 0); // Links VBO to VAO
 		VAO1.Bind();
 
 
@@ -102,7 +86,7 @@ int main()
 		
 		glDrawArrays(GL_POINTS, 0, 2);
 
-
+		glPointSize(10);
 		glUniform4f(vertexColorLocation, 1.0f, 0.5f, 0.1f, temp);
 		glDrawArrays(GL_POINTS, 2, 1);
 		
