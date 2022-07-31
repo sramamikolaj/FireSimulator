@@ -28,7 +28,7 @@ int main()
 	glViewport(0, 0, 800, 800); //mówienie gladowi o obszarze roboczym
 
 	
-	Fire testFire(800, 800, 50);
+	Fire testFire(800, 800, 300);
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f); //przygotowanie komendy 

@@ -27,13 +27,14 @@ private:
 	VAO VAO1;
 
 	//Fire parameters
-	int fireSize; //nie wiem jak ma dokladnie dzialac jeszcze
+	int fireWidth; //nie wiem jak ma dokladnie dzialac jeszcze
+	int fireHeight;
 
 	//Window parameters
 	int windowHeight;
 	int windowWidth;
 
-	GLfloat pointVertex[800];
+	GLfloat pointVertex[100][800];
 	int pointVertexArraySize;
 
 

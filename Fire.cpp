@@ -12,6 +12,9 @@ Fire::Fire(int w, int h, int fireSize)
 
 	srand(time(NULL));
 
+	
+	fireWidth = fireSize;
+	fireHeight = 43;
 	fillArray(fireSize);
 }
 
@@ -26,22 +29,26 @@ void Fire::fillArray(int size)
 {
 	int j = 0;
 	pointVertexArraySize = size;
-	for (int i = 0; i < size; i++)
+	for (int row = 0; row < fireHeight; row++)
 	{
-		float posX = float(i) / 100;
-		pointVertex[i * 6 + j] = posX;
-		j++;
-		pointVertex[i * 6 + j] = -0.5;
-		j++;
-		pointVertex[i * 6 + j] = 0;
-		j++;
-		pointVertex[i * 6 + j] = -1 * posX;
-		j++;
-		pointVertex[i * 6 + j] = -0.5;
-		j++;
-		pointVertex[i * 6 + j] = 0;
-		j = 0;
+		for (int i = 0; i < size; i++)
+		{
+			float posX = float(i) / 90;
+			pointVertex[row][i * 6 + j] = posX;
+			j++;
+			pointVertex[row][i * 6 + j] = 0 + float(row)/60;
+			j++;
+			pointVertex[row][i * 6 + j] = 0;
+			j++;
+			pointVertex[row][i * 6 + j] = -1 * posX;
+			j++;
+			pointVertex[row][i * 6 + j] = 0 + float(row) / 60;
+			j++;
+			pointVertex[row][i * 6 + j] = 0;
+			j = 0;
+		}
 	}
+	
 }
 
 void Fire::activate()
@@ -59,19 +66,24 @@ void Fire::changeSize(int changeBy)
 
 void Fire::update()
 {
-	//jeśli wyszło poza ekran to wyzeruj
-	if (pointVertex[1] > 0.7) { 
-		for (int i = 0; i < pointVertexArraySize; i++)
-		{
-			pointVertex[i * 3 + 1] = -0.5;
+	for (int row = 0; row < fireHeight; row++)
+	{
+		//jeśli wyszło poza ekran to wyzeruj
+		if (pointVertex[row][1] > 0.72) {
+			for (int i = 0; i < pointVertexArraySize; i++)
+			{
+				pointVertex[row][i * 3 + 1] = 0;
+			}
 		}
-	}
-	//jeśli nie to leć w górę
-	else { 
-		for (int i = 0; i < pointVertexArraySize; i++)
-		{
-			float rand = float(std::rand() % 750) / 410000;
-			pointVertex[i * 3 + 1] += rand;
+		//jeśli nie to leć w górę
+		else {
+			for (int i = 0; i < pointVertexArraySize; i++)
+			{
+				float randY = float(std::rand() % 800) / 810000;
+				pointVertex[row][i * 3 + 1] += randY;
+				float randX = float(std::rand() % 800 -400) / 400000;
+				pointVertex[row][i * 3 ] += randX;
+			}
 		}
 	}
 }
@@ -79,19 +91,27 @@ void Fire::render()
 {
 	// Generates Vertex Buffer Object and links it to vertices
 	
-	VBO VBO1 = VBO(pointVertex, sizeof(pointVertex));
-	VAO1.LinkVBO(VBO1, 0);
+	VBO VBO1 = VBO(pointVertex[0], sizeof(pointVertex[0]));
 
-	int vertexColorLocation = glGetUniformLocation(shaderProgram->ID, "ourColor");
+	for (int row = 0; row < fireHeight; row++)
+	{
+		VBO1 = VBO(pointVertex[row], sizeof(pointVertex[row]));
+		VAO1.LinkVBO(VBO1, 0);
+		int vertexColorLocation = glGetUniformLocation(shaderProgram->ID, "ourColor");
+		glPointSize(10);
 
-	glPointSize(10);
-	glUniform4f(vertexColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
-	glDrawArrays(GL_POINTS, 0, pointVertexArraySize);
+		for (int i = 1; i < pointVertexArraySize; i++)
+		{
+			float y = 1.0f - 10*float(i) / pointVertexArraySize - 2*pointVertex[row][1];
+			glUniform4f(vertexColorLocation, 1.0f, y, 0.0f, (1 - pointVertex[row][1]) - 0.02 * i /*TYMCZASOWE RÓWNANIE JAKIEŚ*/);
+			glDrawArrays(GL_POINTS, i, 1);
+		}
 
+		VBO1.Delete();
+	}
 	
-	VBO1.Delete();
 	
 	//////////////////////////
-	
 
+	
 }
