@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Visual Studio\FireSimulator\glfw-3.3.8\build\CMakeFiles\90b5b85880ec3c2d2f64bb5528e16bac\update_mappings.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Visual Studio\FireSimulator\glfw-3.3.8\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Visual Studio\FireSimulator\glfw-3.3.8\src\mappings.h.in">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="D:\Visual Studio\FireSimulator\glfw-3.3.8\CMake\GenerateMappings.cmake" />
+    <None Include="D:\Visual Studio\FireSimulator\glfw-3.3.8\build\src\CMakeFiles\update_mappings" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{6FA0B916-1134-3B3D-9202-4AA0413F4390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{98A83206-D787-331F-93E5-986BF60E41FD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
