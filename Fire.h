@@ -7,6 +7,7 @@
 #include"shaderClass.h"
 #include"VAO.h"
 #include<iostream>
+#include<cmath>
 
 #include <stdlib.h>
 #include <time.h>
@@ -24,17 +25,20 @@ class Fire
 
 private:
 	Shader* shaderProgram;
+	
 	VAO VAO1;
 
 	//Fire parameters
-	int fireWidth; //nie wiem jak ma dokladnie dzialac jeszcze
-	int fireHeight;
+	float fireWidth; //nie wiem jak ma dokladnie dzialac jeszcze
+	float fireHeight;
+
+	int circles, rows, radius;
 
 	//Window parameters
 	int windowHeight;
 	int windowWidth;
 
-	GLfloat pointVertex[100][800];
+	GLfloat pointVertex[15][15][540];
 	int pointVertexArraySize;
 
 
@@ -50,6 +54,7 @@ public:
 	void changeSize(int changeBy); //change fire size
 	void update(); //update sparks position
 	void render(); //render sparks (czy potrzebne?)
+	Shader* getShaderProgram() { return shaderProgram; }
 };
 
 

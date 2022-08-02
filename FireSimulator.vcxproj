@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="shaderClass.h" />
     <ClInclude Include="VAO.h" />
