@@ -150,6 +150,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shaderClass.cpp" />
     <ClCompile Include="VAO.cpp" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Fire.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="shaderClass.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />

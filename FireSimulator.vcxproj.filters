@@ -39,6 +39,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -56,19 +59,22 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="spark.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="spark.frag">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="default.vert">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="default.frag">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="spark.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="spark.vert">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

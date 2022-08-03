@@ -7,7 +7,6 @@ Fire::Fire(int w, int h, int fireSize)
 	pointVertexArraySize = 0;
 
 	shaderProgram = new Shader("spark.vert", "spark.frag");
-	shaderProgram->Activate();
 	VAO1.Bind();
 
 	srand(time(NULL));
@@ -25,7 +24,6 @@ Fire::Fire(int w, int h, int fireSize)
 
 Fire::~Fire()
 {
-
 	VAO1.Delete();
 	shaderProgram->Delete();
 }
@@ -113,15 +111,19 @@ void Fire::update()
 		}
 	}
 	///TEMP DO PODŁOGI
-	VAO1.Bind();
-	shaderProgram->Activate();
+	
+	
 	/// 
+}
+void Fire::activateShader() 
+{
+	shaderProgram->Activate();
 }
 void Fire::render()
 {
 	// Generates Vertex Buffer Object and links it to vertices
 	
-
+	VAO1.Bind();
 	VBO VBO1 = VBO(pointVertex[0][0], sizeof(pointVertex[0][0]));
 	for (int circle = 0; circle < circles; circle++)
 	{

@@ -53,6 +53,7 @@ public:
 	void deactivate(); //deactivate fire
 	void changeSize(int changeBy); //change fire size
 	void update(); //update sparks position
+	void activateShader();
 	void render(); //render sparks (czy potrzebne?)
 	Shader* getShaderProgram() { return shaderProgram; }
 };
