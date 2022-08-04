@@ -1,6 +1,7 @@
 #ifndef GROUND_CLASS_H
 #define GROUND_CLASS_H
 
+#include<stb/stb_image.h>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 #include"VBO.h"
@@ -18,7 +19,8 @@ private:
 	int windowHeight;
 	int windowWidth;
 
-	GLfloat vertices[9];
+	GLfloat vertices[20][20][30];
+	GLuint texture;
 
 	void initArrays();
 

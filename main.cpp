@@ -35,7 +35,7 @@ int main()
 
 	Fire testFire(800, 800, 50);
 	Ground ground(800, 800);
-	Camera camera(800, 800, glm::vec3(0.0f, 0.1f, 2.0f));
+	Camera camera(800, 800, glm::vec3(0.0f, 0.15f, 2.0f));
 
 	while (!glfwWindowShouldClose(window)) {
 
