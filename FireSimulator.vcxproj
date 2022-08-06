@@ -168,6 +168,8 @@
   <ItemGroup>
     <None Include="default.frag" />
     <None Include="default.vert" />
+    <None Include="pointSprite.frag" />
+    <None Include="pointSprite.vert" />
     <None Include="spark.frag" />
     <None Include="spark.vert" />
   </ItemGroup>

@@ -82,6 +82,12 @@
     <None Include="spark.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="pointSprite.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="pointSprite.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="grass.png">

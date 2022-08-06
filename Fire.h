@@ -8,7 +8,7 @@
 #include"VAO.h"
 #include<iostream>
 #include<cmath>
-
+#include<stb/stb_image.h>
 #include <stdlib.h>
 #include <time.h>
 
