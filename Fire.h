@@ -41,12 +41,13 @@ private:
 	GLfloat pointVertex[15][15][540];
 	int pointVertexArraySize;
 
-
+	GLuint texture;
+	void initTexture(const char* texPath);
 
 	void fillArray(int);
 
 public:
-	Fire(int w, int h, int fireSize);
+	Fire(int w, int h, int fireSize, const char* texPath);
 	~Fire();
 
 	void activate(); //activate fire

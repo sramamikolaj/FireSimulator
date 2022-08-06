@@ -33,9 +33,9 @@ int main()
 	gladLoadGL();
 	glViewport(0, 0, 800, 800); //mówienie gladowi o obszarze roboczym
 
-	Fire testFire(800, 800, 50);
-	Ground ground(800, 800);
-	Camera camera(800, 800, glm::vec3(0.0f, 0.15f, 2.0f));
+	Fire fire(800, 800, 50);
+	Ground ground(800, 800, "D:/Visual Studio/FireSimulator/grass.jpg");
+	Camera camera(800, 800, glm::vec3(0.0f, 0.15f, 1.0f));
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -51,10 +51,10 @@ int main()
 		camera.Matrix(45.0f, 0.1f, 100.0f, *(ground.getShaderProgram()), "camMatrix");
 		ground.render();
 
-		testFire.update();
-		testFire.activateShader();
-		camera.Matrix(45.0f, 0.1f, 100.0f, *(testFire.getShaderProgram()), "camMatrix");
-		testFire.render();
+		fire.update();
+		fire.activateShader();
+		camera.Matrix(45.0f, 0.1f, 100.0f, *(fire.getShaderProgram()), "camMatrix");
+		fire.render();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -7,7 +7,7 @@
 #include"VBO.h"
 #include"shaderClass.h"
 #include"VAO.h"
-
+#include"String"
 
 class Ground
 {
@@ -23,9 +23,9 @@ private:
 	GLuint texture;
 
 	void initArrays();
-
+	void initTexture(const char* texPath);
 public:
-	Ground(int w, int h);
+	Ground(int w, int h, const char* texture);
 	~Ground();
 
 	void activateShader();
@@ -33,6 +33,5 @@ public:
 	void render(); 
 	Shader* getShaderProgram() { return shaderProgram; }
 };
-
 
 #endif
