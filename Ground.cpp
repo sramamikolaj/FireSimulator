@@ -9,7 +9,7 @@ Ground::Ground(int w, int h, const char* texture)
 	VAO1.Bind();
 	initArrays();
 	initTexture(texture);
-	shaderProgram = new Shader("default.vert", "default.frag");
+	shaderProgram = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
 }
 
 Ground::~Ground()

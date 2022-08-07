@@ -22,38 +22,48 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	//Okno stuff
-	GLFWwindow* window = glfwCreateWindow(800, 800, "OPENGL_2", NULL, NULL);
+	int windowWidth = 800;
+	int windowHeight = 800;
+	GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "OPENGL_2", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
-	glfwMakeContextCurrent(window); //włączanie okna
+	glfwMakeContextCurrent(window);
 	gladLoadGL();
-	glViewport(0, 0, 800, 800); //mówienie gladowi o obszarze roboczym
+	glViewport(0, 0, windowWidth, windowHeight);
 
-	Fire fire(800, 800, 50, "D:/Visual Studio/FireSimulator/test.jpg");
-	Ground ground(800, 800, "D:/Visual Studio/FireSimulator/grass.jpg");
-	Camera camera(800, 800, glm::vec3(0.0f, 0.15f, 1.0f));
+	Fire fire(windowWidth, windowHeight, "Resources/Images/fire_particle.jpg");
+	Ground ground(windowWidth, windowHeight, "Resources/Images/grass.jpg");
+	Camera camera(windowWidth, windowHeight, glm::vec3(0.0f, 0.15f, 1.0f));
 
+	static double limitFPS = 1.0 / 60.0;
+	double prevTime = glfwGetTime();
+	double diff = 0;
+	double currTime = 0;
+	
 	while (!glfwWindowShouldClose(window)) {
+		currTime = glfwGetTime();
+		diff += (currTime - prevTime) / limitFPS;
+		prevTime = currTime;
 
-
-		glClearColor(0.05, 0.08, 0.21, 1.0f); //przygotowanie komendy 
-		glClear(GL_COLOR_BUFFER_BIT); //wykonanie komendy
+		glClearColor(0.05, 0.08, 0.21, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT); 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		camera.Inputs(window);
+		while (diff >= 1.0) {
+			camera.Inputs(window);
+			fire.update();
 
-		
-	
+			diff--;
+		}
+
 		ground.activateShader();
 		camera.Matrix(45.0f, 0.1f, 100.0f, *(ground.getShaderProgram()), "camMatrix");
 		ground.render();
-
-		fire.update();
 		fire.activateShader();
 		camera.Matrix(45.0f, 0.1f, 100.0f, *(fire.getShaderProgram()), "camMatrix");
 		fire.render();

@@ -12,50 +12,35 @@
 #include <stdlib.h>
 #include <time.h>
 
-typedef enum {
-	Off,
-	Starting,
-	On,
-	Stopping
-}State;
 
 class Fire
 {
-
-
 private:
 	Shader* shaderProgram;
 	
 	VAO VAO1;
 
-	//Fire parameters
-	float fireWidth; //nie wiem jak ma dokladnie dzialac jeszcze
-	float fireHeight;
 
-	int circles, rows, radius;
+	int circles, layers;
 
-	//Window parameters
+
 	int windowHeight;
 	int windowWidth;
 
 	GLfloat pointVertex[15][15][540];
-	int pointVertexArraySize;
 
 	GLuint texture;
 	void initTexture(const char* texPath);
 
-	void fillArray(int);
+	void fillArray();
 
 public:
-	Fire(int w, int h, int fireSize, const char* texPath);
+	Fire(int w, int h, const char* texPath);
 	~Fire();
 
-	void activate(); //activate fire
-	void deactivate(); //deactivate fire
-	void changeSize(int changeBy); //change fire size
-	void update(); //update sparks position
+	void update();
 	void activateShader();
-	void render(); //render sparks (czy potrzebne?)
+	void render();
 	Shader* getShaderProgram() { return shaderProgram; }
 };
 

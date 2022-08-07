@@ -1,25 +1,18 @@
 ﻿#include "Fire.h"
 
-Fire::Fire(int w, int h, int fireSize, const char* texPath)
+Fire::Fire(int w, int h, const char* texPath)
 {
 	windowHeight = h;
 	windowWidth = w;
-	pointVertexArraySize = 0;
 
-	shaderProgram = new Shader("pointSprite.vert", "pointSprite.frag");
+	shaderProgram = new Shader("Resources/Shaders/pointSprite.vert", "Resources/Shaders/pointSprite.frag");
 	VAO1.Bind();
-
 	srand(time(NULL));
 
 	circles = 10;
-	rows = 10;
-	radius = 2;
+	layers = 10;
 
-
-	//fireWidth = fireSize;
-	fireWidth = 3;
-	fireHeight = 50;
-	fillArray(fireWidth);
+	fillArray();
 	initTexture(texPath);
 }
 
@@ -44,21 +37,20 @@ void Fire::initTexture(const char* texPath) {
 	stbi_image_free(bytes);
 }
 
-void Fire::fillArray(int size)
+void Fire::fillArray()
 {
 	int j = 0;
-	pointVertexArraySize = size;
 	for (int circle = 1; circle <= circles; circle++)
 	{
-		for (int row = 0; row < rows; row++)
+		for (int row = 0; row < layers; row++)
 		{
 			for (int i = 0; i < 360; i += 2)
 			{
-				float posX = float(circle) / (16 * circles) * cos(float(float(i) * 3.14 / 180.0));
-				float posY = float(circle) / (16 * circles) * sin(float(float(i) * 3.14 / 180.0));
+				float posX = float(circle) / (12 * circles) * cos(float(float(i) * 3.14 / 180.0));
+				float posY = float(circle) / (12 * circles) * sin(float(float(i) * 3.14 / 180.0));
 				pointVertex[circle - 1][row][i / 2 * 3 + j] = posX;
 				j++;
-				pointVertex[circle - 1][row][i / 2 * 3 + j] = float(row) / 500 * rows;
+				pointVertex[circle - 1][row][i / 2 * 3 + j] = float(row) / 500 * layers;
 				j++;
 				pointVertex[circle - 1][row][i / 2 * 3 + j] = posY;
 				j = 0;
@@ -67,23 +59,12 @@ void Fire::fillArray(int size)
 	}
 }
 
-void Fire::activate()
-{
-}
-
-void Fire::deactivate()
-{
-}
-
-void Fire::changeSize(int changeBy)
-{
-}
 
 void Fire::update()
 {
 	for (int circle = 0; circle < circles; circle++)
 	{
-		for (int row = 0; row < rows; row++)
+		for (int row = 0; row < layers; row++)
 		{
 			
 			if (pointVertex[circle][row][1] > 0.2) {
@@ -97,10 +78,12 @@ void Fire::update()
 				for (int i = 0; i < 180; i++)
 				{
 					float randY = (rand() % 3) * 0.001;
-					float randX = (rand() % 3) * 0.001;
+					float randX = ((rand() % 3) -1) * 0.0005;
+					float randZ = ((rand() % 3) -1) * 0.0005;
+					pointVertex[circle][row][i * 3] += randX;
 					pointVertex[circle][row][i * 3 + 1] += randY;
+					pointVertex[circle][row][i * 3 + 2] += randZ;
 				}
-			
 			}
 		}
 	}
@@ -118,17 +101,15 @@ void Fire::render()
 	GLuint tex0Uni = glGetUniformLocation(shaderProgram->ID, "tex0");
 	for (int circle = 0; circle < circles; circle++)
 	{
-		for (int row = 0; row < rows; row++)
+		for (int row = 0; row < layers; row++)
 		{
 			VBO1 = VBO(pointVertex[circle][row], sizeof(pointVertex[circle][row]));
 			VAO1.LinkVBO(VBO1, 0);
-			glPointSize(12);
-	
+			glPointSize(8);
 			for (int i = 0; i < 180; i++)
 			{
-				float rad = sqrt(pointVertex[circle][row][i * 3] * pointVertex[circle][row][i * 3] + pointVertex[circle][row][i * 3 + 2] * pointVertex[circle][row][i * 3 + 2]);
-				float yellow = 0.9 - (16 * sqrt(pointVertex[circle][row][i * 3] * pointVertex[circle][row][i * 3] + pointVertex[circle][row][i * 3 + 2] * pointVertex[circle][row][i * 3 + 2]));
-				float alpha = 1.0 - 4 * pointVertex[circle][row][i * 3 + 1] - (16 * sqrt(pointVertex[circle][row][i * 3] * pointVertex[circle][row][i * 3] + pointVertex[circle][row][i * 3 + 2] * pointVertex[circle][row][i * 3 + 2]));
+				float yellow = 0.9 - (12 * sqrt(pointVertex[circle][row][i * 3] * pointVertex[circle][row][i * 3] + pointVertex[circle][row][i * 3 + 2] * pointVertex[circle][row][i * 3 + 2]));
+				float alpha = 1 - 4 * pointVertex[circle][row][i * 3 + 1] - (12 * sqrt(pointVertex[circle][row][i * 3] * pointVertex[circle][row][i * 3] + pointVertex[circle][row][i * 3 + 2] * pointVertex[circle][row][i * 3 + 2]) - rand()%12*0.01);
 				int vertexColorLocation = glGetUniformLocation(shaderProgram->ID, "colorFilter");
 				glUniform4f(vertexColorLocation, 1.0f, yellow, 0.0f, alpha);
 				glUniform1i(tex0Uni, 1);
