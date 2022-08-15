@@ -27,11 +27,12 @@ void Camera::Inputs(GLFWwindow* window)
 	std::cout << "Position: x=" << Position.x << ", y=" << Position.y << " z=" << Position.z << std::endl;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		if ((Position+(speed * Orientation)).y > 0.08) Position += speed * Orientation;
+		if ((Position + (speed * Orientation)).y > 0.08) Position += speed * Orientation;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		if ((Position + (speed * -glm::normalize(glm::cross(Orientation, Up)))).y > 0.08) Position += speed * -glm::normalize(glm::cross(Orientation, Up));
+
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
@@ -91,4 +92,16 @@ void Camera::Inputs(GLFWwindow* window)
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		firstClick = true;
 	}
+}
+
+void Camera::resetPosition()
+{
+	if (Position.z >= 1.70)
+		Position.z = 1.69;
+	if (Position.z <= -1.70)
+		Position.z = -1.69;
+	if (Position.x >= 1.70)
+		Position.x = 1.69;
+	if (Position.x <= -1.70)
+		Position.x = -1.69;
 }
