@@ -13,8 +13,6 @@
 #include"camera.h"
 #include"ground.h"
 #include <vector>
-#include"Skybox.h"
-#include "ImportedModel.h"
 
 float skyboxVertices[] =
 {
