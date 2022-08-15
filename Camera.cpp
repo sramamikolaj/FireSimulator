@@ -24,6 +24,7 @@ void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shade
 
 void Camera::Inputs(GLFWwindow* window)
 {
+	std::cout << "Position: x=" << Position.x << ", y=" << Position.y << " z=" << Position.z << std::endl;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		if ((Position+(speed * Orientation)).y > 0.08) Position += speed * Orientation;
@@ -40,10 +41,18 @@ void Camera::Inputs(GLFWwindow* window)
 	{
 		if ((Position + (glm::normalize(glm::cross(Orientation, Up)))).y > 0.08) Position += speed * glm::normalize(glm::cross(Orientation, Up));
 	}
+	
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-	{	
-		if((Position + (speed * Up)).y > 0.08) Position += speed * Up;
-		
+	{
+		if (Position.y < 2.0) {
+			if ((Position + (speed * Up)).y > 0.08) Position += speed * Up;
+		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	{
+		if (Position.y >= 0.10) {
+			if ((Position + (speed * Up)).y > 0.08) Position -= speed * Up;	
+		}
 	}
 
 	// mouse inputs
