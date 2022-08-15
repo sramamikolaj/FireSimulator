@@ -1,4 +1,4 @@
-﻿#include<iostream>
+#include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 
@@ -83,9 +83,6 @@ int main()
 		glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 		glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
 
-		shaderProgram.Activate();
-		glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-		glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 		skyboxShader.Activate();
 		glUniform1i(glGetUniformLocation(skyboxShader.ID, "skybox"), 0);
 
@@ -120,7 +117,7 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 
-	std::string parentResourceImageDir = "Resources/Images/Space/";
+	std::string parentResourceImageDir = "Resources/Images/";
 	std::string facesCubemap[6] =
 	{
 
@@ -198,7 +195,7 @@ int main()
 			diff--;
 		}
 
-
+		camera.resetPosition();
 
 
 //Skybox		
