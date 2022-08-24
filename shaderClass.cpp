@@ -1,6 +1,6 @@
 ﻿#include"shaderClass.h"
 
-// Reads a text file and outputs a string with everything in the text file
+//Read vert or frag file (interpreted as text files)
 std::string get_file_contents(const char* filename)
 {
 	std::ifstream in(filename, std::ios::binary);
@@ -17,42 +17,37 @@ std::string get_file_contents(const char* filename)
 	throw(errno);
 }
 
-// Constructor that build the Shader Program from 2 different shaders
+//Constructor - create program out of fragment and vertex shader 
 Shader::Shader(const char* vertexFile, const char* fragmentFile)
 {
-	//kod shaderów do zmiennych 
 	std::string vertexCode = get_file_contents(vertexFile);
 	std::string fragmentCode = get_file_contents(fragmentFile);
 	const char* vertexSource = vertexCode.c_str();
 	const char* fragmentSource = fragmentCode.c_str();
 
-	//Shadery
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexSource, NULL); //podpinanie kodu źródłowego shadera
+	glShaderSource(vertexShader, 1, &vertexSource, NULL);
 	glCompileShader(vertexShader);
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
 	glCompileShader(fragmentShader);
 
-	ID = glCreateProgram(); //shadery trzeba wrzucić do programu i przez niego mieć dostęp
+	ID = glCreateProgram();
 	glAttachShader(ID, vertexShader);
 	glAttachShader(ID, fragmentShader);
 	glLinkProgram(ID);
-	//shadery można usunąć
+	
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
-
 }
 
-
-
-// Activates the Shader Program
-void Shader::Activate()
+//Activate program
+void Shader::activate()
 {
 	glUseProgram(ID);
 }
 
-// Deletes the Shader Program
+//Delete program
 void Shader::Delete()
 {
 	glDeleteProgram(ID);

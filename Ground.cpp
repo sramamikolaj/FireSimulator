@@ -1,17 +1,15 @@
 #include "Ground.h"
 
-
-
-Ground::Ground(int w, int h, const char* texture)
+//Constructor - values initialiation and call of other init unctions
+Ground::Ground(const char* texture)
 {
-	windowHeight = h;
-	windowWidth = w;
 	VAO1.Bind();
 	initArrays();
 	initTexture(texture);
 	shaderProgram = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
 }
 
+//Destructor - delete components
 Ground::~Ground()
 {
 	VBO1->Delete();
@@ -20,6 +18,7 @@ Ground::~Ground()
 	glDeleteTextures(1, &texture);
 }
 
+//Initialize texture that will be use to ground square - whole ground is made out of man squares
 void Ground::initTexture(const char* texPath) {
 	int widthImg, heightImg, numColCh;
 	unsigned char* bytes = stbi_load(texPath, &widthImg, &heightImg, &numColCh, 0);
@@ -35,6 +34,7 @@ void Ground::initTexture(const char* texPath) {
 	stbi_image_free(bytes);
 }
 
+//Initialize array of vertices (vertices + texture coordinates) of squares that make ground 
 void Ground::initArrays()
 {
 	for (int i = 0; i < 20; i++)
@@ -45,7 +45,6 @@ void Ground::initArrays()
 			float yOffset = 0.2 * float(j) - 2.0f;
 			GLfloat values[] =
 			{
-				//									 TEXTURE COORDS
 				0.1f+ xOffset, 0, -0.1f + yOffset,	 1.0f, 0.0f,
 				-0.1f+ xOffset, 0, -0.1f + yOffset,	 0.0f, 0.0f, 
 				0.1f+ xOffset, 0, 0.1f + yOffset,	 1.0f, 1.0f,
@@ -58,17 +57,21 @@ void Ground::initArrays()
 	}
 }
 
+//Activate ground shader
 void Ground::activateShader()
 {
-	shaderProgram->Activate();
+	shaderProgram->activate();
 }
 
+//No updates needed for ground
 void Ground::update()
 {
 }
 
+//Render all ground squares
 void Ground::render()
 {
+	activateShader();
 	GLuint tex0Uni = glGetUniformLocation(shaderProgram->ID, "tex0");
 	for (int j = 0; j < 20; j++)
 	{
@@ -78,7 +81,6 @@ void Ground::render()
 			VBO1 = new VBO(vertices[i][j], sizeof(vertices[i][j]));
 			VAO1.LinkAttrib(*VBO1, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
 			VAO1.LinkAttrib(*VBO1, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-			activateShader();
 			glUniform1i(tex0Uni, 0);
 			glBindTexture(GL_TEXTURE_2D, texture);
 			glDrawArrays(GL_TRIANGLES, 0, 6);

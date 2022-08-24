@@ -15,17 +15,13 @@ private:
 	Shader* shaderProgram;
 	VAO VAO1;
 	VBO* VBO1;
-
-	int windowHeight;
-	int windowWidth;
-
 	GLfloat vertices[20][20][30];
 	GLuint texture;
 
 	void initArrays();
 	void initTexture(const char* texPath);
 public:
-	Ground(int w, int h, const char* texture);
+	Ground(const char* texture);
 	~Ground();
 
 	void activateShader();

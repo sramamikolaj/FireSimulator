@@ -1,27 +1,31 @@
 ﻿#include "Fire.h"
 
-Fire::Fire(int w, int h, const char* texPath)
+//Constructor - values initialiation and call of other init unctions
+Fire::Fire(const char* texPath)
 {
-	windowHeight = h;
-	windowWidth = w;
-
+	srand(time(NULL));
 	shaderProgram = new Shader("Resources/Shaders/pointSprite.vert", "Resources/Shaders/pointSprite.frag");
 	VAO1.Bind();
-	srand(time(NULL));
-
+	
 	circles = 10;
 	layers = 10;
 
 	fillArray();
 	initTexture(texPath);
+
+	tex0Uni = glGetUniformLocation(shaderProgram->ID, "tex0");
+	vertexColorLocation = glGetUniformLocation(shaderProgram->ID, "colorFilter");
 }
 
+//Destructor - delete components
 Fire::~Fire()
 {
 	VAO1.Delete();
 	shaderProgram->Delete();
+	glDeleteTextures(0, &texture);
 }
 
+//Initialize texture that will be use to create point sprites - fire sparks
 void Fire::initTexture(const char* texPath) {
 	int widthImg, heightImg, numColCh;
 	unsigned char* bytes = stbi_load(texPath, &widthImg, &heightImg, &numColCh, 0);
@@ -37,6 +41,7 @@ void Fire::initTexture(const char* texPath) {
 	stbi_image_free(bytes);
 }
 
+//Fire is built out of points in circles in layers - initialie positions of these points
 void Fire::fillArray()
 {
 	int j = 0;
@@ -59,14 +64,13 @@ void Fire::fillArray()
 	}
 }
 
-
+//Update points positions - by random values or reset them to ground level if the reached limit
 void Fire::update()
 {
 	for (int circle = 0; circle < circles; circle++)
 	{
 		for (int row = 0; row < layers; row++)
 		{
-			
 			if (pointVertex[circle][row][1] > 0.2) {
 				for (int i = 0; i < 180; i++)
 				{
@@ -89,33 +93,36 @@ void Fire::update()
 	}
 }
 
+//Fire shader activation
 void Fire::activateShader() 
 {
-	shaderProgram->Activate();
+	shaderProgram->activate();
 }
 
+//Render points - each point has to be processed separately due to varied color filter and alpha value
 void Fire::render()
 {
 	VAO1.Bind();
 	VBO VBO1 = VBO(pointVertex[0][0], sizeof(pointVertex[0][0]));
-	GLuint tex0Uni = glGetUniformLocation(shaderProgram->ID, "tex0");
+	glPointSize(8);
+
 	for (int circle = 0; circle < circles; circle++)
 	{
 		for (int row = 0; row < layers; row++)
 		{
 			VBO1 = VBO(pointVertex[circle][row], sizeof(pointVertex[circle][row]));
 			VAO1.LinkVBO(VBO1, 0);
-			glPointSize(8);
+			
 			for (int i = 0; i < 180; i++)
 			{
 				float yellow = 0.9 - (12 * sqrt(pointVertex[circle][row][i * 3] * pointVertex[circle][row][i * 3] + pointVertex[circle][row][i * 3 + 2] * pointVertex[circle][row][i * 3 + 2]));
 				float alpha = 1 - 4 * pointVertex[circle][row][i * 3 + 1] - (12 * sqrt(pointVertex[circle][row][i * 3] * pointVertex[circle][row][i * 3] + pointVertex[circle][row][i * 3 + 2] * pointVertex[circle][row][i * 3 + 2]) - rand()%12*0.01);
-				int vertexColorLocation = glGetUniformLocation(shaderProgram->ID, "colorFilter");
 				glUniform4f(vertexColorLocation, 1.0f, yellow, 0.0f, alpha);
 				glUniform1i(tex0Uni, 1);
 				glBindTexture(GL_TEXTURE_2D, texture);
 				glDrawArrays(GL_POINTS, i, 1);
 			}
+
 			VBO1.Delete();
 		}
 	}

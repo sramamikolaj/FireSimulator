@@ -17,25 +17,17 @@ class Fire
 {
 private:
 	Shader* shaderProgram;
-	
 	VAO VAO1;
-
-
+	GLuint tex0Uni;
+	int vertexColorLocation;
 	int circles, layers;
-
-
-	int windowHeight;
-	int windowWidth;
-
 	GLfloat pointVertex[15][15][540];
-
 	GLuint texture;
+
 	void initTexture(const char* texPath);
-
 	void fillArray();
-
 public:
-	Fire(int w, int h, const char* texPath);
+	Fire(const char* texPath);
 	~Fire();
 
 	void update();
@@ -43,7 +35,5 @@ public:
 	void render();
 	Shader* getShaderProgram() { return shaderProgram; }
 };
-
-
 
 #endif

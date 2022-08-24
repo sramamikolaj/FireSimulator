@@ -82,7 +82,7 @@ public:
 
 	void loadCubemaps();
 	void activateShader();
-	void render(Shader shader, Camera camera);
+	void render(Camera camera);
 
 
 	//Getters and setters

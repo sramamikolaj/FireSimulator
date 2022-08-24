@@ -153,6 +153,7 @@
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shaderClass.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="stb.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Fire.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="shaderClass.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
   </ItemGroup>
