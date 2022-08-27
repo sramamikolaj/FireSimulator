@@ -24,4 +24,5 @@ Simple project which goal was to render a fire from point sprites.
 
 #### Demo
 [Available at youtube](https://www.youtube.com/watch?v=nNawv_uN93o)
+
 ![FIRE](/Resources/Readme/fire.gif)
