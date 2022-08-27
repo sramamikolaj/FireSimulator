@@ -14,7 +14,7 @@ Simple project which goal was to render a fire from point sprites.
 
 #### Movement:
 - Moving forward, backward and sides using *WASD* controlls
-- Moving up and down using *LEFT-COTROL (down)* and *SPACE (up)*
+- Moving up and down using *LEFT-CONTROL (down)* and *SPACE (up)*
 - x, y, z axes rotation using *Left Mouse Button* and movement of the mouse
 
 #### Textures:
